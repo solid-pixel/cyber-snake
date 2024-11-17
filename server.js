@@ -4,22 +4,26 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// CORS configuration
-const corsOptions = {
-    origin: [
-        'http://localhost:3000',
-        'http://localhost:5000',
-        'https://cyber-snake.onrender.com',
-        'https://cybersnake-client.onrender.com'
-    ],
-    methods: ['GET', 'POST'],
-    credentials: true,
-    optionsSuccessStatus: 200
-};
+// Enable CORS for all origins in development
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS']
+}));
 
-app.use(cors(corsOptions));
+// Add request logging middleware
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
+    next();
+});
+
 app.use(express.json());
 app.use(express.static('.'));
+
+// Health check endpoint
+app.get('/', (req, res) => {
+    res.json({ status: 'ok', message: 'Server is running' });
+});
 
 // Initialize SQLite database
 const db = new sqlite3.Database('scores.db', (err) => {

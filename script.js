@@ -14,6 +14,8 @@ const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:3000/api'
     : 'https://cybersnake-server.onrender.com/api';
 
+console.log('Using API URL:', API_URL);
+
 // Set canvas size
 canvas.width = 400;
 canvas.height = 400;
@@ -37,17 +39,29 @@ let playerPassword = '';
 // Load high scores from API
 async function fetchHighScores() {
     try {
+        console.log('Fetching high scores from:', `${API_URL}/scores`);
         const response = await fetch(`${API_URL}/scores`);
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const scores = await response.json();
         displayHighScores(scores);
     } catch (error) {
         console.error('Error fetching scores:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack
+        });
     }
 }
 
 // Submit new score to API
 async function submitScore(name, score) {
     try {
+        console.log('Submitting score:', { name, score });
         const response = await fetch(`${API_URL}/scores`, {
             method: 'POST',
             headers: {
@@ -59,6 +73,13 @@ async function submitScore(name, score) {
                 password: playerPassword 
             }),
         });
+        
+        console.log('Submit score response:', response.status);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server error:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         if (response.ok) {
             fetchHighScores(); // Refresh the scores display
