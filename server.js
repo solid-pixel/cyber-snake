@@ -2,7 +2,24 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// CORS configuration
+const corsOptions = {
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:5000',
+        'https://cyber-snake.onrender.com',
+        'https://cybersnake-client.onrender.com'
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.static('.'));
 
 // Initialize SQLite database
 const db = new sqlite3.Database('scores.db', (err) => {
@@ -28,10 +45,6 @@ const db = new sqlite3.Database('scores.db', (err) => {
         });
     }
 });
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static('.'));
 
 // Check if name is available or verify password
 app.post('/api/check-name', (req, res) => {
