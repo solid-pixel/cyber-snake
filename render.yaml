@@ -10,7 +10,8 @@ services:
   - type: static
     name: cybersnake-client
     buildCommand: null
-    staticPublishPath: ./
+    publishDir: .  # Root directory
+    staticPublishPath: .
     routes:
       - type: rewrite
         source: /*
