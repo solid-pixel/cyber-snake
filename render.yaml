@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: cybersnake-server
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+  - type: static
+    name: cybersnake-client
+    buildCommand: null
+    staticPublishPath: ./
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

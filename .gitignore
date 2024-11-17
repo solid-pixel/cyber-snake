@@ -1,0 +1,4 @@
+node_modules/
+scores.db
+*.db
+.DS_Store
