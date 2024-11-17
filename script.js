@@ -12,7 +12,7 @@ const highScoresTable = document.getElementById('highScoresTable');
 // API endpoints
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3000/api'
-    : 'https://cybersnake-server.onrender.com/api';
+    : 'https://cyber-snake.onrender.com/api';
 
 console.log('Using API URL:', API_URL);
 
