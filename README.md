@@ -1,6 +1,6 @@
 # Cybersnake Game
 
-A cyberpunk-themed Snake game with persistent high scores and user authentication.
+A retro-cyberpunk-themed Snake game with persistent high scores and user authentication.
 
 ## Features
 
